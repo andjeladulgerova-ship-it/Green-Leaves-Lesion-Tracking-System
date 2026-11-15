@@ -17,6 +17,7 @@ public class Leaves2Main {
             for (int y = 0; y < image.getHeight(); y++) {
                 if (diseasedArea[x][y]) {
                     diseasedPixelCount++;
+                    image.setRGB(x, y, 0xFFFF0000);
                 }
             }
         }
