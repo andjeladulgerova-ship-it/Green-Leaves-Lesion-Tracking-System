@@ -1,11 +1,8 @@
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class ProcessingImage {
     public boolean[][] potentialLesionsDetection(BufferedImage image) {
-        boolean [][] pixelsOfDeceasedArea = new boolean[image.getWidth()][image.getHeight()];
+        boolean [][] pixelsOfDiseasedArea = new boolean[image.getWidth()][image.getHeight()];
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 int pixel = image.getRGB(x, y);
@@ -18,10 +15,13 @@ public class ProcessingImage {
                 blue <= 100 && 
                 red > green* 1.15 && 
                 red > blue * 1.15) {
-                    pixelsOfDeceasedArea[x][y] = true;
+                    pixelsOfDiseasedArea[x][y] = true;
                 } else {
-                    pixelsOfDeceasedArea[x][y] = false;
+                    pixelsOfDiseasedArea[x][y] = false;
                 }
+            }        
+        }
+        return pixelsOfDiseasedArea;  
     }
-    return pixelsOfDeceasedArea;    
 }
+
