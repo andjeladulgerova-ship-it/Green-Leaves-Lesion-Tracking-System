@@ -12,6 +12,10 @@ public class Leaves2Main {
         ProcessingImage processor = new ProcessingImage();
         boolean[][] diseasedArea = processor.potentialLesionsDetection(image);
 
+        Finder finder = new Finder();
+        int spotsCount = finder.spotsCounter(diseasedArea, image);
+        System.out.println("Total spots detected: " + spotsCount);
+
         int diseasedPixelCount = 0;
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
