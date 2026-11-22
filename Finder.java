@@ -11,7 +11,6 @@ public class Finder {
         for (int x=0; x < width; x++) {
             for (int y = 0; y< height; y++) {
                 if (diseasedArea[x][y] && !visited[x][y]) {
-                    spotsCount++;
 
                     int count = 0;
                     double mean = 0;
@@ -20,6 +19,7 @@ public class Finder {
 
                     ArrayDeque<int[]> queue = new ArrayDeque<>();
                     queue.add(new int[]{x, y});
+                    visited[x][y] = true;
                     while (!queue.isEmpty()) {
                         int[] current = queue.poll();
                         int currX = current[0];
@@ -37,7 +37,7 @@ public class Finder {
                         mean += delta / count;
                         m2 += delta * (brightness - mean);
 
-                        if (currX < 0 || currX >= width -1  || currY < 0 || currY >= height - 1) {
+                        if (currX == 0 || currX >= width -1  || currY == 0 || currY >= height - 1) {
                             edgeDetected = true;
                         }
                         int [][] neighbors = {
@@ -56,7 +56,7 @@ public class Finder {
                     if (!edgeDetected && count >= 20) {
                         spotsCount++;
                         double variance = m2 / count;
-                        System.out.println("Spot " + spotsCount + ": Mean brightness = " + mean + ", Variance = " + variance);
+                        System.out.printf   ("Spot %d: area = %d pixels, brightness = %.1f, variance = %.1f%n", spotsCount, count, mean, variance);
                     }
                 }
             }
