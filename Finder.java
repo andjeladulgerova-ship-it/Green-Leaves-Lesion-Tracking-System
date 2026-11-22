@@ -1,9 +1,8 @@
 import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class Finder {
-    public int spotsCounter(boolean[][] diseasedArea) {
+    public int spotsCounter(boolean[][] diseasedArea, BufferedImage image) {
         int width = diseasedArea.length;
         int height = diseasedArea[0].length;
         boolean[][] visited = new boolean[width][height];
@@ -17,11 +16,12 @@ public class Finder {
                     int count = 0;
                     double mean = 0;
                     double m2 = 0;
+                    boolean edgeDetected = false;
 
-                    ArrayDeque<int[]> stack = new ArrayDeque<>();
-                    stack.push(new int[]{x, y});
-                    while (!stack.isEmpty()) {
-                        int[] current = stack.pop();
+                    ArrayDeque<int[]> queue = new ArrayDeque<>();
+                    queue.add(new int[]{x, y});
+                    while (!queue.isEmpty()) {
+                        int[] current = queue.poll();
                         int currX = current[0];
                         int currY = current[1];
 
@@ -37,17 +37,30 @@ public class Finder {
                         mean += delta / count;
                         m2 += delta * (brightness - mean);
 
-                        if (currX < 0 || currX >= width || currY < 0 || currY >= height || visited[currX][currY] || !diseasedArea[currX][currY]) {
-                            continue;
+                        if (currX < 0 || currX >= width -1  || currY < 0 || currY >= height - 1) {
+                            edgeDetected = true;
                         }
-                        visited[currX][currY] = true;
+                        int [][] neighbors = {
+                            {currX - 1, currY}, {currX + 1, currY},
+                            {currX, currY - 1}, {currX, currY + 1}
+                        };
+                        for (int[] n: neighbors) {
+                            int nx = n[0];
+                            int ny = n[1];
+                            if (nx >= 0 && nx < width && ny >= 0 && ny < height && diseasedArea[nx][ny] && !visited[nx][ny]) {
+                                visited[nx][ny] = true;
+                                queue.add(new int[]{nx, ny});
+                            }
+                        }
+                    }
+                    if (!edgeDetected && count >= 20) {
+                        spotsCount++;
+                        double variance = m2 / count;
+                        System.out.println("Spot " + spotsCount + ": Mean brightness = " + mean + ", Variance = " + variance);
                     }
                 }
             }
-            double variance = m2 / (count - 1);
-            if (count >= 20) {
-                System.out.println("Spot " + spotsCount + ": Mean brightness = " + mean + ", Variance = " + variance);
-            }
         }
+        return spotsCount;
     }
 }
