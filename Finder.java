@@ -16,6 +16,9 @@ public class Finder {
                     double mean = 0;
                     double m2 = 0;
                     boolean edgeDetected = false;
+                    long sumXPerimeter = 0;
+                    long sumYPerimeter = 0;
+                    int perimeterCount = 0;
 
                     ArrayDeque<int[]> queue = new ArrayDeque<>();
                     queue.add(new int[]{x, y});
@@ -37,6 +40,10 @@ public class Finder {
                         mean += delta / count;
                         m2 += delta * (brightness - mean);
 
+                        sumXPerimeter += currX;
+                        sumYPerimeter += currY;
+                        perimeterCount++;
+
                         if (currX == 0 || currX >= width -1  || currY == 0 || currY >= height - 1) {
                             edgeDetected = true;
                         }
@@ -47,16 +54,21 @@ public class Finder {
                         for (int[] n: neighbors) {
                             int nx = n[0];
                             int ny = n[1];
-                            if (nx >= 0 && nx < width && ny >= 0 && ny < height && diseasedArea[nx][ny] && !visited[nx][ny]) {
-                                visited[nx][ny] = true;
+                            boolean isInside = nx >= 0 && nx < width && ny >= 0 && ny < height;
+                            if (!isInside || !diseasedArea[nx][ny]) {
+                                perimeterCount++;
+                            } else if (!visited[nx][ny]) {
                                 queue.add(new int[]{nx, ny});
+                                visited[nx][ny] = true;
                             }
                         }
                     }
                     if (!edgeDetected && count >= 20) {
                         spotsCount++;
                         double variance = m2 / count;
-                        System.out.printf   ("Spot %d: area = %d pixels, brightness = %.1f, variance = %.1f%n", spotsCount, count, mean, variance);
+                        double centreXPerimeter = (double) sumXPerimeter / perimeterCount;
+                        double centreYPerimeter = (double) sumYPerimeter / perimeterCount;
+                        System.out.printf   ("Spot %d: area = %d pixels, brightness = %.1f, variance = %.1f%n", spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
                     }
                 }
             }
