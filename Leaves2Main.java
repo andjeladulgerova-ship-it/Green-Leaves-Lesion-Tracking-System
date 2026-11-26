@@ -17,10 +17,11 @@ public class Leaves2Main {
         int spotsCount = finder.spotsCounter(diseasedArea, image);
         System.out.println("Total spots detected: " + spotsCount);
 
+        boolean[][] realSpots = finder.getRealSpots();
         int diseasedPixelCount = 0;
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
-                if (diseasedArea[x][y]) {
+                if (realSpots[x][y]) {
                     diseasedPixelCount++;
                     image.setRGB(x, y, 0xFFFF0000);
                 }
