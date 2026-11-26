@@ -41,14 +41,7 @@ public class Lesion {
 
     @Override
     public String toString() {
-        return "Lesion{" +
-                "id=" + id +
-                ", area=" + area +
-                ", perimeter=" + perimeter +
-                ", centerX=" + centerX +
-                ", centerY=" + centerY +
-                ", meanBrightness=" + meanBrightness +
-                ", varianceBrightness=" + varianceBrightness +
-                '}';
+        return String.format("Lesion{" +
+                "id=%d, area=%d, perimeter=%d, centerX=%.1f, centerY=%.1f, meanBrightness=%.1f, varianceBrightness=%.1f}", id, area, perimeter, centerX, centerY, meanBrightness, varianceBrightness);
     }
 }
