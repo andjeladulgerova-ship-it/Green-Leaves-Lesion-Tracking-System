@@ -84,11 +84,11 @@ public class Finder {
                             realSpots[pixel[0]][pixel[1]] = true;
                         }
                         double variance = m2 / count;
-                        double centreXPerimeter = (double) sumXPerimeter / perimeterCount;
-                        double centreYPerimeter = (double) sumYPerimeter / perimeterCount;
+                        double centreXPerimeter = (double) sumXPerimeter / count;
+                        double centreYPerimeter = (double) sumYPerimeter / count;
                         Lesion lesion = new Lesion(spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
                         lesionsList.add(lesion);
-                        System.out.printf   ("Spot %d: area = %d, perimeter = %d, centre = (%.1f, %.1f), brightness = %.1f, variance = %.1f%n", spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
+                        System.out.println(lesion);
                     }
                 }
             }
