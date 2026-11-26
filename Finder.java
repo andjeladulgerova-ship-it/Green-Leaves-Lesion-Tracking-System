@@ -1,11 +1,18 @@
 import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class Finder {
+    private boolean[][] realSpots;
+
+    public boolean[][] getRealSpots() {
+        return realSpots;
+    }
     public int spotsCounter(boolean[][] diseasedArea, BufferedImage image) {
         int width = diseasedArea.length;
         int height = diseasedArea[0].length;
         boolean[][] visited = new boolean[width][height];
+        realSpots = new boolean[width][height];
         int spotsCount = 0;
 
         for (int x=0; x < width; x++) {
@@ -15,6 +22,7 @@ public class Finder {
                     int count = 0;
                     double mean = 0;
                     double m2 = 0;
+                    ArrayList<int[]> spotPixels = new ArrayList<>();
                     boolean edgeDetected = false;
                     long sumXPerimeter = 0;
                     long sumYPerimeter = 0;
@@ -27,6 +35,7 @@ public class Finder {
                         int[] current = queue.poll();
                         int currX = current[0];
                         int currY = current[1];
+                        spotPixels.add(current);
 
                         int rgb = image.getRGB(currX, currY);
                         int red = (rgb >> 16) & 0xff;
@@ -65,6 +74,9 @@ public class Finder {
                     }
                     if (!edgeDetected && count >= 20) {
                         spotsCount++;
+                        for (int[] pixel : spotPixels) {
+                            realSpots[pixel[0]][pixel[1]] = true;
+                        }
                         double variance = m2 / count;
                         double centreXPerimeter = (double) sumXPerimeter / perimeterCount;
                         double centreYPerimeter = (double) sumYPerimeter / perimeterCount;
