@@ -63,13 +63,13 @@ public class ProcessingImage {
         int filledSpotsCount = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (!outsideOfTheSPots[x][y] && diseased[x][y]) {
+                if (!outsideOfTheSPots[x][y] && !diseased[x][y]) {
                     diseased[x][y] = true;
                     filledSpotsCount++;
                 }
             }
         }
-        System.out.println("Total filled spots: " + filledSpotsCount);
+        System.out.println("Total filled hole pixels: " + filledSpotsCount);
         return diseased;
     }
 }
