@@ -68,7 +68,7 @@ public class Finder {
                         double variance = m2 / count;
                         double centreXPerimeter = (double) sumXPerimeter / perimeterCount;
                         double centreYPerimeter = (double) sumYPerimeter / perimeterCount;
-                        System.out.printf   ("Spot %d: area = %d pixels, brightness = %.1f, variance = %.1f%n", spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
+                        System.out.printf   ("Spot %d: area = %d, perimeter = %d, centre = (%.1f, %.1f), brightness = %.1f, variance = %.1f%n", spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
                     }
                 }
             }
