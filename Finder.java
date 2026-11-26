@@ -4,15 +4,21 @@ import java.util.ArrayList;
 
 public class Finder {
     private boolean[][] realSpots;
+    private ArrayList<Lesion> lesionsList;
 
     public boolean[][] getRealSpots() {
         return realSpots;
+    }
+
+    public ArrayList<Lesion> getLesionsList() {
+        return lesionsList;
     }
     public int spotsCounter(boolean[][] diseasedArea, BufferedImage image) {
         int width = diseasedArea.length;
         int height = diseasedArea[0].length;
         boolean[][] visited = new boolean[width][height];
         realSpots = new boolean[width][height];
+        lesionsList = new ArrayList<>();
         int spotsCount = 0;
 
         for (int x=0; x < width; x++) {
@@ -80,6 +86,8 @@ public class Finder {
                         double variance = m2 / count;
                         double centreXPerimeter = (double) sumXPerimeter / perimeterCount;
                         double centreYPerimeter = (double) sumYPerimeter / perimeterCount;
+                        Lesion lesion = new Lesion(spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
+                        lesionsList.add(lesion);
                         System.out.printf   ("Spot %d: area = %d, perimeter = %d, centre = (%.1f, %.1f), brightness = %.1f, variance = %.1f%n", spotsCount, count, perimeterCount, centreXPerimeter, centreYPerimeter, mean, variance);
                     }
                 }
